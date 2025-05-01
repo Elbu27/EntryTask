@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NutriMind Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/babel.min.js"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // Sample data
+    const mealsData = [
+      {
+        mealType: "Breakfast",
+        items: ["Scrambled Eggs", "Toast", "Orange Juice"],
+        calories: 320
+      },
+      {
+        mealType: "Lunch",
+        items: ["Grilled Chicken Salad", "Apple"],
+        calories: 450
+      }
+    ];
+
+    const moodData = {
+      mood: "Satisfied",
+      icon: "\ud83d\ude42"
+    };
+
+    //Pie Chart 
+    const PieChart = () => {
+      return (
+        <div class="flex justify-center mb-4">
+            <div class="relative w-40 h-40">
+                <div class="absolute inset-0 flex items-center justify-center">
+                     <span class="text-4xl font-bold text-gray-800">84</span>
+                </div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <span class="text-sm text-gray-500 mt-12">Good</span>
+                </div>
+                <svg class="w-full h-full transform -rotate-90">
+                    <circle cx="80" cy="80" r="70" fill="none" stroke="#e5e7eb" strokeWidth="10" />
+                    <circle cx="80" cy="80" r="70" fill="none" stroke="#10b981" strokeWidth="10"
+                        strokeDasharray="439.6" strokeDashoffset="87.92" />
+                </svg>
+            </div>
+        </div>
+      );
+    };
+
+    // Meal item for dashboard
+    const MealItem = ({ meal }) => {
+      return (
+        <div className="bg-white p-3 rounded-lg shadow mb-2">
+          <h3 className="text-base font-semibold text-gray-800">{meal.mealType}</h3>
+          <ul className="text-gray-600">
+            {meal.items.map((item, index) => (
+              <li key={index} className="text-xs">{item}</li>
+            ))}
+          </ul>
+          <p className="text-xs text-gray-500">{meal.calories} calories</p>
+        </div>
+      );
+    };
+
+    // Onboarding flow
+    const OnboardingFlow = ({ onNext }) => {
+      return (
+        <div className="max-w-md mx-auto min-h-screen bg-gray-100 p-4">
+          {/* Header section */}
+          <h1 className="text-5xl font-bold text-gray-800 justify-center mb-2">Track your meals & mood</h1>
+          <p className="text-gray-600 text-xl mb-6">
+            Log your daily food and record how you feel.
+          </p>
+
+          {/* Next button */}
+          <button
+            onClick={onNext}
+            className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold text-sm mb-6">
+            Next
+          </button>
+
+          {/* Insight section */}
+          <div className="bg-white p-4 rounded-lg shadow mb-4">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-2">Get personalized Insights</h2>
+            <p className="text-gray-600 text-sm">
+                Receive an analysis and summary of your progress
+            </p>
+          </div>
+
+          {/* Well-being section */}
+          <div className="bg-white p-4 rounded-lg shadow">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-2">Improve your well-being</h2>
+            <p className="text-gray-600 text-sm">
+                Use our tips to eat alther and feel better
+            </p>
+          </div>
+        </div>
+      );
+    };
+
+    // Main dashboard 
+    const Dashboard = ( {onBack} ) => {
+      // State for meals and mood
+      const [meals, setMeals] = React.useState(mealsData);
+      const [mood, setMood] = React.useState(moodData);
+
+      return (
+        <div className="max-w-md mx-auto min-h-screen bg-gray-100 p-4">
+          {/* Header section */}
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-lg font-bold text-gray-800">Dashboard</h1>
+            <button className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-xs">
+              AI Summary
+            </button>
+          </div>
+
+          {/* Pie chart section */}
+          <div className="flex justify-center mb-6">
+            <PieChart />
+          </div>
+
+          {/* AI summary section */}
+          <div className="bg-white p-4 rounded-lg shadow mb-5">
+            <div className="flex items-start">
+              <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+                <span className="text-sm">🤖</span>
+              </div>
+              <h2 className="text-base font-semibold text-gray-800 mb-2 mr-3">Improve_your well-being</h2>
+              <p className="text-gray-700 text-xs">
+                Your protein intake has been low lately. Consider adding more protein-rich foods to your meals.
+              </p>
+            </div>
+          </div>
+
+          {/* Meals and mood section */}
+          <div className="flex justify-between mb-6">
+            {/* Meals */}
+            <div className="w-1/2 mr-2">
+              <h2 className="text-base font-semibold text-gray-800 mb-2">Meals</h2>
+              <p className="text-gray-600 text-xs mb-2">4 logged</p>
+              {meals.map((meal, index) => (
+                <MealItem key={index} meal={meal} />
+              ))}
+            </div>
+
+            {/* Mood */}
+            <div className="bg-white w-1/2 rounded-lg shadow mb-2">
+              <h2 className="text-base font-semibold text-gray-800 mb-2">Mood</h2>
+              <div className="flex items-center">
+                <span className="text-xl mr-3">{mood.icon}</span>
+                <p className="text-gray-600 text-xs">{mood.mood}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Get started button */}
+          <button onClick={onBack} 
+          className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold text-sm">
+            Get started
+          </button>
+        </div>
+      );
+    };
+
+    // App to switch between screens
+    const App = () => {
+      const [screen, setScreen] = React.useState('onboarding');
+
+      const handleNext = () => {
+        setScreen('dashboard');
+      };
+
+      const handleBack = () => {
+        setScreen('onboarding');
+      };
+
+      return (
+        <div>
+          {screen === 'onboarding' ? (
+            <OnboardingFlow onNext={handleNext} />
+          ) : (
+            <Dashboard onBack={handleBack} />
+          )}
+        </div>
+      );
+    };
+
+    // Render the app
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App/>);
+  </script>
+</body>
+</html>

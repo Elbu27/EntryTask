@@ -1,0 +1,19 @@
+[
+    {
+        "mealType": "Breakfast",
+        "items": [
+            "Scrambled Eggs",
+            "Toast",
+            "Orange Juice"
+        ],
+        "calories": 320
+    },
+    {
+        "mealType": "Lunch",
+        "items": [
+            "Grilled Chicken Salad",
+            "Apple"
+        ],
+        "calories": 450
+    }
+]
